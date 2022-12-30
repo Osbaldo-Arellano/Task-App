@@ -3,13 +3,14 @@ require("dotenv").config();
 const bodyParser = require("body-parser");
 const { mongoose } = require("./db/mongoose");
 const app = express();
+let cors = require("cors");
+
 /* Mongoose models */
 const { List, Task } = require("./db/models");
 
 // Load middleware
 app.use(bodyParser.json());
-
-/* ROUTE HANDLERS */
+app.use(cors());
 
 /**
  * ------------------------------------ ROUTES FOR TASKS ------------------------------------
