@@ -11,7 +11,9 @@ app.use(bodyParser.json());
 
 /* ROUTE HANDLERS */
 
-/* LIST ROUTES */
+/**
+ * ------------------------------------ ROUTES FOR TASKS ------------------------------------
+ */
 
 /**
  * GET /lists
@@ -41,9 +43,100 @@ app.post("/lists", (req, res) => {
   });
 });
 
-app.patch("/lists/:id", (req, res) => {});
+app.patch("/lists/:id", (req, res) => {
+  List.findByIdAndUpdate(
+    {
+      _id: req.params.id,
+    },
+    {
+      $set: req.body,
+    }
+  ).then(() => {
+    res.sendStatus(200);
+  });
+});
 
-app.delete("/list/:id", (req, res) => {});
+app.delete("/lists/:id", (req, res) => {
+  List.findOneAndDelete({
+    _id: req.params.id,
+  }).then((removedList) => {
+    res.send(removedList);
+  });
+});
+
+/**
+ * ------------------------------------ ROUTES FOR TASKS ------------------------------------
+ */
+
+/**
+ * GET /lists/:listId/tasks
+ * Purpose: Get all tasks from a list
+ *  */
+app.get("/lists/:listId/tasks", (req, res) => {
+  Task.find({
+    _listId: req.params.listId,
+  }).then((tasks) => {
+    res.send(tasks);
+  });
+});
+
+/**
+ * GET /lists/:listId/tasks/:taskId
+ * Purpose: Get single tasks from a list
+ *  */
+app.get("/lists/:listId/tasks/:taskId", (req, res) => {
+  Task.findOne({
+    _id: req.params.taskId,
+    _listId: req.params.listId,
+  }).then((tasks) => {
+    res.send(tasks);
+  });
+});
+
+/**
+ * POST /lists/:listId/tasks
+ * Purpose: Create a task
+ *  */
+app.post("/lists/:listId/tasks", (req, res) => {
+  let newTask = new Task({
+    title: req.body.title,
+    _listId: req.params.listId,
+  });
+  newTask.save().then((task) => {
+    res.send(task);
+  });
+});
+
+/**
+ * PATCH /lists/:listId/tasks/:taskId
+ * Purpose: Get all tasks from a list
+ *  */
+app.patch("/lists/:listId/tasks/:taskId", (req, res) => {
+  Task.findOneAndUpdate(
+    {
+      _id: req.params.taskId,
+      _listId: req.params.listId,
+    },
+    {
+      $set: req.body,
+    }
+  ).then(() => {
+    res.sendStatus(200);
+  });
+});
+
+/**
+ * DELETE /lists/:listId/tasks/:taskId
+ * Purpose: Delete task from a list
+ *  */
+app.delete("/lists/:listId/tasks/:taskId", (req, res) => {
+  Task.findOneAndDelete({
+    _id: req.params.taskId,
+    _listId: req.params.listId,
+  }).then((removedTask) => {
+    res.send(removedTask);
+  });
+});
 
 app.listen(3000, () => {
   console.log("App is listening on port 3000");
