@@ -3,18 +3,12 @@
     <div class="sidebar has-background-white">
       <h1 class="title has-text-primary">Lists</h1>
       <div class="list-menu">
-        <a class="list-menu-item is-active">
-          <p>List 1</p>
-        </a>
-        <a class="list-menu-item">
-          <p>List 1</p>
-        </a>
-        <a class="list-menu-item">
-          <p>List 1</p>
+        <a class="list-menu-item" *ngFor="let list of lists">
+          <p>{{ list.title }}</p>
         </a>
       </div>
 
-      <button class="button is-primary has-text-white" (click)="createList()">
+      <button class="button is-primary has-text-white" routerLink="/new-list">
         + New List
       </button>
     </div>
@@ -22,15 +16,16 @@
     <div class="tasks-list-container has-background-light">
       <h1 class="title has-text-primary">Tasks</h1>
       <!-- Task elements -->
-      <div class="task complete">
-        <p>TODO</p>
+      <div class="task" *ngFor="let task of tasks">
+        <p>{{ task.title }}</p>
       </div>
-      <div class="task">
-        <p>TODO</p>
-      </div>
-      <div class="task">
-        <p>TODO</p>
-      </div>
+
+      <button
+        routerLink="./new-task"
+        class="circle-add-button button is-primary"
+      >
+        <img src="../../../assets/plus-icon.svg" />
+      </button>
     </div>
   </div>
 </div>
