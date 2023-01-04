@@ -9,7 +9,6 @@ const e = require("express");
 
 // JWT secret
 const jwtSecret = "48362958244696381304fasdfassacgfklh8111620505";
-
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -28,10 +27,10 @@ const UserSchema = new mongoose.Schema({
       token: {
         type: String,
         required: true,
-        exipresAt: {
-          type: Number,
-          required: true,
-        },
+      },
+      expiresAt: {
+        type: Number,
+        required: true,
       },
     },
   ],
@@ -80,7 +79,6 @@ UserSchema.methods.generateRefreshAuthToken = function () {
 
 UserSchema.methods.createSession = function () {
   let user = this;
-
   return user
     .generateRefreshAuthToken()
     .then((refreshToken) => {
@@ -124,10 +122,13 @@ UserSchema.statics.findByCredentials = function (email, password) {
   });
 };
 
-UserSchema.statics.hasRefreshTokenExpired = (exipresAt) => {
+UserSchema.methods.hasRefreshTokenExpired = (exipresAt) => {
   let secondsSinceEpoch = Date.now() / 1000;
-  if (exipresAt > secondsSinceEpoch) return false;
-  else return true;
+  if (exipresAt > secondsSinceEpoch) {
+    return false;
+  } else {
+    return true;
+  }
 };
 
 // Middleware
@@ -151,9 +152,8 @@ UserSchema.pre("save", function (next) {
 let saveSessionToDatabase = (user, refreshToken) => {
   // Save session to database
   return new Promise((resolve, reject) => {
-    let exipresAt = generateRefreshAuthTokenExpiryTime();
-    user.sessions.push({ token: refreshToken, exipresAt });
-
+    let expiresAt = generateRefreshTokenExpiryTime();
+    user.sessions.push({ token: refreshToken, expiresAt });
     user
       .save()
       .then(() => {
