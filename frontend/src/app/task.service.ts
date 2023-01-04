@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import mongoose from 'mongoose';
 import { List } from './models/list.model';
+import { Task } from './models/task.model';
 import { WebRequestService } from './web-request.service';
 
 @Injectable({
@@ -27,5 +28,12 @@ export class TaskService {
   getTasks(listId: string) {
     var id = new mongoose.Types.ObjectId(listId);
     return this.webRequestService.get(`lists/${id}/tasks`);
+  }
+
+  complete(task: Task) {
+    return this.webRequestService.patch(
+      `lists/${task._listId}/tasks/${task._id}`,
+      { completed: !task.completed }
+    );
   }
 }

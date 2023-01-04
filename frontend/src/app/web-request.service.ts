@@ -13,18 +13,18 @@ export class WebRequestService {
   }
 
   get(uri: string) {
-    return this.http.get(`${this.ROOT_URL}/${uri}`);
+    return this.http.get<any[]>(`${this.ROOT_URL}/${uri}`);
   }
 
   post(uri: string, payload: Object) {
-    return this.http.post(`${this.ROOT_URL}/${uri}`, payload);
+    return this.http.post<any>(`${this.ROOT_URL}/${uri}`, payload);
   }
 
   patch(uri: string, payload: Object) {
-    return this.http.patch(`${this.ROOT_URL}/${uri}`, payload);
+    return this.http.patch<any[]>(`${this.ROOT_URL}/${uri}`, payload);
   }
 
   delete(uri: string, payload: Object) {
-    return this.http.delete(`${this.ROOT_URL}/${uri}`, payload);
+    return this.http.delete<any[]>(`${this.ROOT_URL}/${uri}`, payload);
   }
 }
