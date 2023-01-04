@@ -45,7 +45,7 @@ let verifySession = (req, res, next) => {
 
       user.sessions.forEach((session) => {
         if (session.token == refreshToken) {
-          if (user.hasRefreshTokenExpired(session.expiresAt) == false) {
+          if (User.hasRefreshTokenExpired(session.expiresAt) == false) {
             isSessionValid = true;
           }
         }
@@ -233,13 +233,11 @@ app.post("/users", (req, res) => {
 app.post("/users/login", (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
-  console.log(email);
   User.findByCredentials(email, password)
     .then((user) => {
       return user
         .createSession()
         .then((refreshToken) => {
-          console.log(refreshToken);
           // Session has been created
           // now generate access auth token for the user
           return user.generateAccessAuthToken().then((accessToken) => {

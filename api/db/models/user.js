@@ -122,7 +122,7 @@ UserSchema.statics.findByCredentials = function (email, password) {
   });
 };
 
-UserSchema.methods.hasRefreshTokenExpired = (exipresAt) => {
+UserSchema.statics.hasRefreshTokenExpired = (exipresAt) => {
   let secondsSinceEpoch = Date.now() / 1000;
   if (exipresAt > secondsSinceEpoch) {
     return false;
