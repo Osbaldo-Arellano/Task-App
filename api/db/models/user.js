@@ -8,7 +8,7 @@ const { response } = require("express");
 const e = require("express");
 
 // JWT secret
-const jwtSecret = "48362958244696381304fasdfassacgfklh8111620505";
+const JWTSECRET = "48362958244696381304fasdfassacgfklh8111620505";
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -50,8 +50,8 @@ UserSchema.methods.generateAccessAuthToken = function () {
     // Create the JSON Web Token and return that
     jwt.sign(
       { _id: user._id.toHexString() },
-      jwtSecret,
-      { expiresIn: "15m" },
+      JWTSECRET,
+      { expiresIn: "10s" },
       (err, token) => {
         if (!err) {
           resolve(token);
@@ -90,6 +90,10 @@ UserSchema.methods.createSession = function () {
     .catch((err) => {
       return Promise.reject("Failed to save session to database. \n");
     });
+};
+
+UserSchema.statics.getJWTSecret = () => {
+  return JWTSECRET;
 };
 
 UserSchema.statics.findByIdAndToken = function (_id, token) {
@@ -169,6 +173,7 @@ let saveSessionToDatabase = (user, refreshToken) => {
 let generateRefreshTokenExpiryTime = () => {
   let daysUntilExpire = "10";
   let secondsUntilExpire = daysUntilExpire * 24 * 60 * 60;
+
   return Date.now() / 1000 + secondsUntilExpire;
 };
 

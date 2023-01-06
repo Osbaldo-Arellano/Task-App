@@ -27,4 +27,17 @@ export class WebRequestService {
   delete(uri: string, payload: Object) {
     return this.http.delete<any[]>(`${this.ROOT_URL}/${uri}`, payload);
   }
+
+  login(email: string, password: string) {
+    return this.http.post(
+      `${this.ROOT_URL}/users/login`,
+      {
+        email,
+        password,
+      },
+      {
+        observe: 'response',
+      }
+    );
+  }
 }
