@@ -1,6 +1,6 @@
 <div class="centered-content">
   <div class="white-box">
-    <h1 class="title has-text-primary">Signup</h1>
+    <h1 class="title has-text-primary">Sign up</h1>
     <div class="field">
       <p class="control has-icons-left has-icons-right">
         <input
@@ -29,7 +29,12 @@
     </div>
     <div class="field is-pulled-right">
       <p class="control">
-        <button class="button is-success has-text-white">Login</button>
+        <button
+          class="button is-success has-text-white"
+          (click)="onSignupClicked(emailInput.value, passwordInput.value)"
+        >
+          Sign up
+        </button>
       </p>
     </div>
   </div>

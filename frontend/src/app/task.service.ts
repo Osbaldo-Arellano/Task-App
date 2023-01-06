@@ -19,6 +19,10 @@ export class TaskService {
     return this.webRequestService.get('lists');
   }
 
+  deleteList(id: string) {
+    return this.webRequestService.delete(`lists/${id}`);
+  }
+
   createTask(title: string, listId: string) {
     var id = new mongoose.Types.ObjectId(listId);
     console.log('List ID: ' + id);
