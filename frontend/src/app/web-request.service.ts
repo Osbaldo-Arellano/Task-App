@@ -21,6 +21,7 @@ export class WebRequestService {
   }
 
   patch(uri: string, payload: Object) {
+    console.log('PAYLOAD: ' + payload);
     return this.http.patch<any[]>(`${this.ROOT_URL}/${uri}`, payload);
   }
 

@@ -32,7 +32,12 @@
             </div>
             <div class="dropdown-menu" id="dropdown-menu4" role="menu">
               <div class="dropdown-content">
-                <a href="#" class="dropdown-item"> Edit </a>
+                <a
+                  [routerLink]="['/edit-list', selectedListId]"
+                  class="dropdown-item"
+                >
+                  Edit
+                </a>
                 <a
                   class="dropdown-item has-text-danger"
                   (click)="onDeleteListClick()"
@@ -44,13 +49,35 @@
           </div>
         </div>
         <!-- Task elements -->
+
         <div
           class="task"
           *ngFor="let task of tasks"
           (click)="onTaskClick(task)"
           [ngClass]="{ complete: task.completed }"
         >
-          <p>{{ task.title }}</p>
+          <div class="task-text">
+            <p>{{ task.title }}</p>
+          </div>
+          <div class="task-buttons">
+            <button
+              class="button"
+              [routerLink]="['/lists', selectedListId, 'edit-task', task._id]"
+            >
+              <div class="icon">
+                <i class="fas fa-edit"></i>
+              </div>
+            </button>
+            <button
+              class="button is-danger"
+              (click)="onTaskDeleteClick(task._id)"
+              style="margin-left: 10px"
+            >
+              <div class="icon">
+                <i class="fas fa-trash"></i>
+              </div>
+            </button>
+          </div>
         </div>
 
         <h3 class="empty-state-text is-4" *ngIf="tasks.length === 0">
